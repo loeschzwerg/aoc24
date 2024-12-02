@@ -9,6 +9,8 @@ fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
         .map(|(a,b)| (a.parse::<i32>().unwrap(), b.parse::<i32>().unwrap()))
         .unzip()
 }
+
+
 pub fn part_one(input: &str) -> Option<u32> {
     let (mut left, mut right) = parse_input(input);
     left.sort_unstable();
