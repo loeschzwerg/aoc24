@@ -10,11 +10,10 @@ pub fn part_one(input: &str) -> Option<u32> {
     let result = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)")
         .unwrap()
         .captures_iter(input)
-        .fold(0, |acc, x|
-            acc +
-                x.get(1).unwrap().as_str().parse::<u32>().unwrap() *
-                    x.get(2).unwrap().as_str().parse::<u32>().unwrap()
-        );
+        .fold(0, |acc, x| {
+            acc + x.get(1).unwrap().as_str().parse::<u32>().unwrap()
+                * x.get(2).unwrap().as_str().parse::<u32>().unwrap()
+        });
     Some(result)
 }
 
@@ -23,12 +22,19 @@ pub fn part_two(input: &str) -> Option<u32> {
     let result = Regex::new(r"do\(\)|don't\(\)|mul\((\d{1,3}),(\d{1,3})\)")
         .unwrap()
         .captures_iter(input)
-        .fold(0, |acc, x|
-            if x.get(0).unwrap().as_str() == "do()" { enabled = true; acc }
-            else if x.get(0).unwrap().as_str() == "don't()" { enabled = false; acc }
-            else if !enabled { acc }
-            else { acc + to_u32(&x, 1) * to_u32(&x, 2) }
-        );
+        .fold(0, |acc, x| {
+            if x.get(0).unwrap().as_str() == "do()" {
+                enabled = true;
+                acc
+            } else if x.get(0).unwrap().as_str() == "don't()" {
+                enabled = false;
+                acc
+            } else if !enabled {
+                acc
+            } else {
+                acc + to_u32(&x, 1) * to_u32(&x, 2)
+            }
+        });
     Some(result)
 }
 
