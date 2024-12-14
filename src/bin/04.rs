@@ -11,7 +11,7 @@ fn check_one(matrix: &Vec<Vec<u8>>, x: isize, y: isize, x_dir: isize, y_dir: isi
         if matrix[(y + y_dir) as usize][(x + x_dir) as usize] == M {
             if matrix[(y + 2 * y_dir) as usize][(x + 2 * x_dir) as usize] == A {
                 if matrix[(y + 3 * y_dir) as usize][(x + 3 * x_dir) as usize] == S {
-                    return 1
+                    return 1;
                 }
             }
         }
@@ -19,22 +19,49 @@ fn check_one(matrix: &Vec<Vec<u8>>, x: isize, y: isize, x_dir: isize, y_dir: isi
     0
 }
 
-fn check_xmas(matrix: &Vec<Vec<u8>>, x: isize, y: isize, up: bool, down: bool, left: bool, right: bool) -> u32 {
+fn check_xmas(
+    matrix: &Vec<Vec<u8>>,
+    x: isize,
+    y: isize,
+    up: bool,
+    down: bool,
+    left: bool,
+    right: bool,
+) -> u32 {
     let mut count = 0;
-    if up    { count += check_one(matrix, x, y,  0, -1); }
-    if down  { count += check_one(matrix, x, y,  0,  1); }
-    if left  { count += check_one(matrix, x, y, -1,  0); }
-    if right { count += check_one(matrix, x, y,  1,  0); }
-    if up   && left  { count += check_one(matrix, x, y, -1, -1); }
-    if up   && right { count += check_one(matrix, x, y,  1, -1); }
-    if down && left  { count += check_one(matrix, x, y, -1,  1); }
-    if down && right { count += check_one(matrix, x, y,  1,  1); }
+    if up {
+        count += check_one(matrix, x, y, 0, -1);
+    }
+    if down {
+        count += check_one(matrix, x, y, 0, 1);
+    }
+    if left {
+        count += check_one(matrix, x, y, -1, 0);
+    }
+    if right {
+        count += check_one(matrix, x, y, 1, 0);
+    }
+    if up && left {
+        count += check_one(matrix, x, y, -1, -1);
+    }
+    if up && right {
+        count += check_one(matrix, x, y, 1, -1);
+    }
+    if down && left {
+        count += check_one(matrix, x, y, -1, 1);
+    }
+    if down && right {
+        count += check_one(matrix, x, y, 1, 1);
+    }
 
     count
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
-    let matrix = input.lines().map(|x| x.as_bytes().to_vec()).collect::<Vec<Vec<u8>>>();
+    let matrix = input
+        .lines()
+        .map(|x| x.as_bytes().to_vec())
+        .collect::<Vec<Vec<u8>>>();
     let x_max = matrix[0].len() as isize;
     let y_max = matrix.len() as isize;
     let mut counter = 0;
@@ -56,13 +83,13 @@ pub fn part_one(input: &str) -> Option<u32> {
 
 fn check_masx(matrix: &Vec<Vec<u8>>, x: isize, y: isize) -> u32 {
     if matrix[y as usize][x as usize] == A {
-        let upl = matrix[(y-1) as usize][(x-1) as usize];
-        let dor = matrix[(y+1) as usize][(x+1) as usize];
+        let upl = matrix[(y - 1) as usize][(x - 1) as usize];
+        let dor = matrix[(y + 1) as usize][(x + 1) as usize];
         if (upl == M && dor == S) || (upl == S && dor == M) {
-            let upr = matrix[(y-1) as usize][(x+1) as usize];
-            let dol = matrix[(y+1) as usize][(x-1) as usize];
+            let upr = matrix[(y - 1) as usize][(x + 1) as usize];
+            let dol = matrix[(y + 1) as usize][(x - 1) as usize];
             if (upr == M && dol == S) || (upr == S && dol == M) {
-                return 1
+                return 1;
             }
         }
     }
@@ -70,7 +97,10 @@ fn check_masx(matrix: &Vec<Vec<u8>>, x: isize, y: isize) -> u32 {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let matrix = input.lines().map(|x| x.as_bytes().to_vec()).collect::<Vec<Vec<u8>>>();
+    let matrix = input
+        .lines()
+        .map(|x| x.as_bytes().to_vec())
+        .collect::<Vec<Vec<u8>>>();
     let x_max = matrix[0].len() as isize;
     let y_max = matrix.len() as isize;
     let mut counter = 0;
